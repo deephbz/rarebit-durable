@@ -1,6 +1,6 @@
 {
   "name": "@hypercarrier/rarebit-durable",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Rarebit on pi-durable: sparse conversational evidence, Summary and Title receipts, and recall over the full durable transcript.",
   "repository": {
     "type": "git",

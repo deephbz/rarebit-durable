@@ -88,6 +88,8 @@ export type RarebitState = {
 	running?: { boundary: Boundary; coveredEntryId: string; since: number; boot?: string };
 	/** The stop entry whose settled boundary was last handled, so each stop is summarized at most once. */
 	trigger?: string;
+	/** AmPi settled a pending Summary intent without running its model. Legacy receipts remain unchanged. */
+	retiredSummary?: { at: number; notice: string };
 	title?: { title: string; sourceEntryId: string; model: string; at: number };
 };
 
