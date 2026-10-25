@@ -1,0 +1,63 @@
+{
+  "name": "@hypercarrier/rarebit-durable",
+  "version": "0.1.0",
+  "description": "Rarebit on pi-durable: sparse conversational evidence, Summary and Title receipts, and recall over the full durable transcript.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deephbz/rarebit-durable.git"
+  },
+  "homepage": "https://github.com/deephbz/rarebit-durable#readme",
+  "bugs": {
+    "url": "https://github.com/deephbz/rarebit-durable/issues"
+  },
+  "author": "deephbz",
+  "license": "MIT",
+  "keywords": [
+    "pi-durable",
+    "rarebit",
+    "ai-agent",
+    "conversation-summary",
+    "session-recall"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
+    "prepare": "npm run build",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test test/*.test.ts",
+    "verify:package": "npm run build && node scripts/verify-package.cjs"
+  },
+  "dependencies": {
+    "@hypercarrier/rarebit": "0.5.2"
+  },
+  "peerDependencies": {
+    "@earendil-works/chord": "1.4.0",
+    "@earendil-works/pi-ai": "1.4.0",
+    "@earendil-works/pi-durable": "1.4.0"
+  },
+  "devDependencies": {
+    "@earendil-works/chord": "1.4.0",
+    "@earendil-works/pi-ai": "1.4.0",
+    "@earendil-works/pi-durable": "1.4.0",
+    "@types/node": "^25.3.0",
+    "typescript": "^5.9.3"
+  }
+}
