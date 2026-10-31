@@ -2,7 +2,7 @@
 // A reader that polls the export target during a rebuild must never find it missing or empty.
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { existsSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { test } from "node:test";
 
@@ -31,4 +31,15 @@ test("a rebuild keeps every declaration readable and removes only files it no lo
 	assert.equal(misses, 0, `${misses} of ${reads} reads found dist/index.d.ts missing or empty`);
 	assert.equal(existsSync(stale), false, "a file the build no longer emits stays in dist");
 	assert.deepEqual(readdirSync(root).filter((name) => name.startsWith(".dist-build-")), [], "the staging directory stays");
+});
+
+// A consumer may write a dot-file into dist, as HyperCarrier's stamp of the commit it built dist from.
+test("a rebuild keeps a dot-file it did not write", async (t) => {
+	const stamp = join(root, "dist", ".source-commit");
+	const prior = existsSync(stamp) ? readFileSync(stamp, "utf8") : undefined;
+	t.after(() => (prior === undefined ? rmSync(stamp, { force: true }) : writeFileSync(stamp, prior)));
+	assert.equal(await build(), 0);
+	writeFileSync(stamp, "aaaf5dc\n");
+	assert.equal(await build(), 0);
+	assert.equal(existsSync(stamp) && readFileSync(stamp, "utf8"), "aaaf5dc\n", "the build deleted dist/.source-commit");
 });

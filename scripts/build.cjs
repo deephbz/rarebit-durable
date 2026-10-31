@@ -28,7 +28,8 @@ try {
     fs.renameSync(path.join(staging, rel), path.join(dist, rel));
   }
   const keep = new Set(emitted);
-  for (const rel of files(dist)) if (!keep.has(rel)) fs.rmSync(path.join(dist, rel), { force: true });
+  // tsc never emits a dot-file, so one in dist belongs to a consumer, as a stamp of the commit dist was built from.
+  for (const rel of files(dist)) if (!keep.has(rel) && !path.basename(rel).startsWith(".")) fs.rmSync(path.join(dist, rel), { force: true });
 } finally {
   fs.rmSync(staging, { recursive: true, force: true });
 }
