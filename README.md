@@ -12,9 +12,9 @@ unchanged.
 npm install @hypercarrier/rarebit-durable
 ```
 
-The package needs a pi-durable host. Install these peers at exactly `1.4.0`:
-`@earendil-works/pi-durable`, `@earendil-works/pi-ai`, and
-`@earendil-works/chord`. It depends on `@hypercarrier/rarebit` `0.5.2`. Node
+The package needs a pi-durable host. Install these peers at exactly `1.5.0`:
+`@earendil-works/pi-durable`, `@earendil-works/pi-ai`,
+`@earendil-works/pi-schema`, and `@earendil-works/chord`. It depends on `@hypercarrier/rarebit` `0.5.2`. Node
 22.19 or later.
 
 ## API

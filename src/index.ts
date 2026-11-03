@@ -10,8 +10,8 @@
 
 /// <reference path="./rarebit-core.d.ts" />
 import type { Context } from "@earendil-works/chord/context";
-import { Type } from "@earendil-works/pi-ai";
 import { defineDoc, defineExtension, defineTool, type EntryRecord, type ToolExecutionApi } from "@earendil-works/pi-durable";
+import { lit, num, obj, opt, str, union } from "@earendil-works/pi-schema";
 import {
 	composeRarebitSummaryDerivationInput,
 	composeRarebitTitlePrompt,
@@ -232,11 +232,14 @@ export function rarebitExtension(source: RarebitSource) {
 		name: "rarebit_recall",
 		description:
 			"Reread exact earlier user messages and assistant prose from this conversation's full durable history, including parts compaction removed from your context. Tool calls and results are not included.",
-		parameters: Type.Object({
-			query: Type.Optional(Type.String({ description: "Case-insensitive words; every word must appear." })),
-			role: Type.Optional(Type.Union([Type.Literal("user"), Type.Literal("assistant"), Type.Literal("any")])),
-			limit: Type.Optional(Type.Number({ description: "Most recent matches to return (default 12, max 50)." })),
-		}),
+		parameters: obj(
+			{
+				query: opt(str({ description: "Case-insensitive words; every word must appear." })),
+				role: opt(union([lit("user"), lit("assistant"), lit("any")])),
+				limit: opt(num({ description: "Most recent matches to return (default 12, max 50)." })),
+			},
+			{ open: true },
+		),
 		replay: "safe",
 		execute: async (args, api, context) => {
 			const entries = await source(api, context);
